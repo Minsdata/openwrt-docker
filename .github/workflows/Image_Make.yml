@@ -40,19 +40,17 @@ jobs:
       - name: Make dir and git clone lede repositories
         run: |         
          git clone https://github.com/coolsnowwolf/lede
-         cd lede
 
       - name: Set feeds config
         run: |
-         cat new-feeds-config/feeds.conf > feeds.conf.default
+         cat ./new-feeds-config/feeds.conf > ./ledefeeds.conf.default
 
       - name: Set network initial config
         run: |
-          cd network-config-file
-          chmod +x network-initial-setting.sh
-          ./network-initial-setting.sh
+          chmod +x ./network-config-file/network-initial-setting.sh
+          ./network-config-file/network-initial-setting.sh
 
       - name: Set opewrt config
         run: |
-         cat openwrt-config-file/openwrt-x86.config/feeds.conf > .conf
+         cat ./openwrt-config-file/openwrt-x86.config > ./lede/.conf
    
