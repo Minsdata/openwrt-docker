@@ -44,22 +44,28 @@ jobs:
       - name: Set feeds config
         run: |
          cat ./new-feeds-config/feeds.conf > ./ledefeeds.conf.default
+          ./lede/scripts/feeds update -a
+          ./lede/scripts/feeds install -a
 
       - name: Set network initial config
         run: |
           chmod +x ./network-config-file/network-initial-setting.sh
           ./network-config-file/network-initial-setting.sh
-
+     
       - name: Set opewrt-x86 config
         run: |
          cat ./openwrt-config-file/openwrt-x86.config > ./lede/.conf
 
+      - name: Generate configuration file
+        run: make defconfig
+           
+      - name: Download packages
+        run: make download -j16
+
       - name: Make image for openwrt-x86
         run: |
           cd lede
-          make defconfig
-          make download -j16
-          make -j$(nproc) || make -j(nproc) V=s
+          make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
