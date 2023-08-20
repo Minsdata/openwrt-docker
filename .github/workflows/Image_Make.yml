@@ -63,7 +63,7 @@ jobs:
       - name: Set opewrt-x86 config
         run: |
          rm -f ./lede/.config*
-         cp ./openwrt-config-file/openwrt-x86.config ./lede./.config
+         cp ./openwrt-config-file/openwrt-x86.config ./lede/.config
      #   cat ./openwrt-config-file/openwrt-x86.config > ./lede/.config
 
       - name: Generate configuration file
