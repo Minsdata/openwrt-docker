@@ -62,10 +62,13 @@ jobs:
           make defconfig
            
       - name: Download packages
-        run: make download -j16
+        run: |
+          cd lede
+          run: make download -j16
 
       - name: Make image for openwrt-x86
         run: |
+          cd lede
           make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
