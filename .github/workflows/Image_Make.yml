@@ -57,6 +57,7 @@ jobs:
       - name: Make image for openwrt-x86
         run: |
           cd lede
+          make defconfig
           make download -j16
           make -j$(nproc) || make -j(nproc) V=s
           echo "======================="
