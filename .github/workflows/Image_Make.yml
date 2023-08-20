@@ -34,6 +34,8 @@ jobs:
       
       - name: Checkout openwrt-docker
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.MINSDATA_GITHUB }}
       
       - name: Make dir and git clone lede repositories
         run: |         
