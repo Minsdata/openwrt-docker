@@ -64,7 +64,7 @@ jobs:
       - name: Download packages
         run: |
           cd lede
-          run: make download -j16
+          make download -j16
 
       - name: Make image for openwrt-x86
         run: |
