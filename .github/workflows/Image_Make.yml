@@ -81,6 +81,7 @@ jobs:
    
       - name: Prepare artifact
         run: |
+          cd lede
           mkdir -p ./artifact/package
           mkdir -p ./artifact/buildinfo
           rm -rf $(find ./bin/targets/ -type d -name "packages")
@@ -91,16 +92,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_buildinfo
-          path: ./artifact/buildinfo/
+          path: ./lede/artifact/buildinfo/
 
       - name: Upload package
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_package
-          path: ./artifact/package/
+          path: ./lede/artifact/package/
 
       - name: Upload firmware
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_firmware
-          path: ./bin/targets/
+          path: ./lede/bin/targets/
