@@ -56,9 +56,8 @@ jobs:
 
       - name: Make image for openwrt-x86
         run: |
-          make defconfig
           make download -j16
-           make -j$(nproc) || make -j1 V=s
+          make -j$(nproc) || make -j(nproc) V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
