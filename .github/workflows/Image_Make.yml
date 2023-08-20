@@ -56,10 +56,10 @@ jobs:
         run: |
          cat ./openwrt-config-file/openwrt-x86.config > ./lede/.conf
 
-#      - name: Generate configuration file
-#        run: |
-#          cd lede
-#          make defconfig
+      - name: Generate configuration file
+        run: |
+          cd lede
+          make defconfig
            
       - name: Download packages
         run: |
