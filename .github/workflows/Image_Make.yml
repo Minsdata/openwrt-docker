@@ -46,10 +46,11 @@ jobs:
         run: |
          cat new-feeds-config/feeds.conf > feeds.conf.default
 
-      - name:  Set network initial config
+      - name: Set network initial config
         run: |
+          cd network-config-file
           chmod +x network-initial-setting.sh
-          network-config-file
+          ./network-initial-setting.sh
 
       - name: Set opewrt config
         run: |
