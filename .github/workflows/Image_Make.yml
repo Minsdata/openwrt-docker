@@ -1,0 +1,54 @@
+name: Image_Make
+#normal mode
+#on:
+#  schedule:
+#    - cron: "0 0 */1 * *"
+
+#test mode
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag'
+        required: true
+        default: 'test the action'
+
+jobs:
+
+  build_openwrt:
+
+    name: Build OpenWrt Firmware
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Initialization environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt update
+          sudo -E apt -y full-upgrade
+          sudo -E apt -y install ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip libpython3-dev qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
+
+      
+      - name: Make dir and git clone lede repositories
+        run: |
+         cd /
+         git clone https://github.com/coolsnowwolf/lede
+
+      - name: Set feeds config
+        run: |
+         cd /lede
+         cat new-feeds-config/feeds.conf > feeds.conf.default
+
+      - name:  Set network initial config
+        run: |
+          chmod +x network-initial-setting.sh
+          network-config-file
+
+      - name: Set opewrt config
+        run: |
+         cd /lede
+         cat openwrt-config-file/openwrt-x86.config/feeds.conf > .conf
+   
