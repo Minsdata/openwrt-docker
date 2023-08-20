@@ -57,14 +57,15 @@ jobs:
          cat ./openwrt-config-file/openwrt-x86.config > ./lede/.conf
 
       - name: Generate configuration file
-        run: make defconfig
+        run: |
+          cd lede
+          make defconfig
            
       - name: Download packages
         run: make download -j16
 
       - name: Make image for openwrt-x86
         run: |
-          cd lede
           make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
