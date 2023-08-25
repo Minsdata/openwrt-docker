@@ -115,9 +115,10 @@ jobs:
 #          name: OpenWrt-x86_firmware
 #          path: ./lede/bin/targets/
 ########################################################################
-      - name: Set Arch variables for openwrt
+      - name: Set Arch and Date variables for openwrt
         run: |
           echo "OPENWRT_ARCH=x86" >> $GITHUB_ENV
+          echo "TODAYS_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
 
       - name: Set environment variables for DockerhubRepo
         run: |
@@ -137,13 +138,11 @@ jobs:
 
       - name: Set environment variables for PLATFORMS, DOCKERFILE, TAG
         run: |
-          echo "TODAYS_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
-          
           echo "PLATFORMS=linux/amd64" >> $GITHUB_ENV
           
           echo "DOCKERFILE_OPENWRT=./dockerfiles/dockerfile-openwrt-${{ env.OPENWRT_ARCH }}" >> $GITHUB_ENV
           
-          echo "TAG_OPENWRT_VER=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:$TODAYS_DATE" >> $GITHUB_ENV
+          echo "TAG_OPENWRT_VER=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:${{ env.TODAYS_DATE }}" >> $GITHUB_ENV
           echo "TAG_OPENWRT_LATEST=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:latest" >> $GITHUB_ENV
 
 
