@@ -1,7 +1,7 @@
 FROM scratch
 LABEL maintainer=minsdata
 
-ADD openwrt-x86.tar.gz /
+ADD ./dockerfiles/openwrt-x86.tar.gz /
 
 EXPOSE 22 80 443
 USER root
