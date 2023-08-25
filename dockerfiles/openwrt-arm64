@@ -1,0 +1,8 @@
+FROM scratch
+LABEL maintainer=minsdata
+
+ADD openwrt-arm64.tar.gz /
+
+EXPOSE 22 80 443
+USER root
+CMD ["/sbin/init"]
