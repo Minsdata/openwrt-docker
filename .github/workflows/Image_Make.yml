@@ -143,8 +143,8 @@ jobs:
           
           echo "DOCKERFILE_OPENWRT=./dockerfiles/dockerfile-openwrt-${{ env.OPENWRT_ARCH }}" >> $GITHUB_ENV
           
-          echo "TAG_OPENWRT_VER=${{ env.IMAGE_NAME_PREFIX }}/openwrt-x86:${{ env.TODAYS_DATE }}" >> $GITHUB_ENV
-          echo "TAG_OPENWRT_LATEST=${{ env.IMAGE_NAME_PREFIX }}/openwrt-x86:latest" >> $GITHUB_ENV
+          echo "TAG_OPENWRT_VER=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:1" >> $GITHUB_ENV
+          echo "TAG_OPENWRT_LATEST=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:latest" >> $GITHUB_ENV
 
 
       - name: Build and Push OPENWRT Docker image
