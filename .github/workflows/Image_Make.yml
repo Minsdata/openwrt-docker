@@ -101,17 +101,17 @@ jobs:
       - name: Upload buildinfo
         uses: actions/upload-artifact@v3
         with:
-          name: OpenWrt_buildinfo
+          name: OpenWrt-x86_buildinfo
           path: ./lede/artifact/buildinfo/
 
       - name: Upload package
         uses: actions/upload-artifact@v3
         with:
-          name: OpenWrt_package
+          name: OpenWrt-x86_package
           path: ./lede/artifact/package/
 
       - name: Upload firmware
         uses: actions/upload-artifact@v3
         with:
-          name: OpenWrt_firmware
+          name: OpenWrt-x86_firmware
           path: ./lede/bin/targets/
