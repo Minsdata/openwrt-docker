@@ -38,22 +38,22 @@ jobs:
 #          sudo -E apt -y autoremove --purge
 #          sudo -E apt clean
 #          sudo -E timedatectl set-timezone "Asia/Shanghai"
-      
-  
- #     - name: Checkout openwrt-docker
- #       uses: actions/checkout@v3
- #       with:
- #         token: ${{ secrets.MINSDATA_GITHUB }}     
- #     - name: Make dir and git clone lede repositories
- #       run: |         
- #        git clone https://github.com/coolsnowwolf/lede
+#      
+#  
+#     - name: Checkout openwrt-docker
+#       uses: actions/checkout@v3
+#       with:
+#         token: ${{ secrets.MINSDATA_GITHUB }}     
+#     - name: Make dir and git clone lede repositories
+#       run: |         
+#        git clone https://github.com/coolsnowwolf/lede
 #
 #     - name: Set feeds config
 #      run: |
 #         cat ./new-feeds-config/feeds.conf > ./lede/feeds.conf.default
 #          ./lede/scripts/feeds update -a
 #          ./lede/scripts/feeds install -a
-
+#
 #      - name: Set network initial config
 #        run: |
 #          chmod +x ./network-config-file/network-initial-setting.sh
