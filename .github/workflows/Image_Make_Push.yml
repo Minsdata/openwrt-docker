@@ -15,11 +15,11 @@ on:
 
 jobs:
   job1:
-   build_openwrt-x86:
-     name: Build OpenWrt-x86 Firmware
-     runs-on: ubuntu-latest
+    #  build_openwrt-x86:
+      name: Build OpenWrt-x86 Firmware
+      runs-on: ubuntu-latest
     
-     steps:
+      steps:
        - name: Space cleanup and Initialization environment
          env:
            DEBIAN_FRONTEND: noninteractive
@@ -159,64 +159,65 @@ jobs:
 
 ###########################################################################
   job2:
-   build_openwrt-arm64:
-    name: Build OpenWrt-arm64 Firmware
-    runs-on: ubuntu-latest
-    steps:
-      - name: Space cleanup and Initialization environment
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          docker rmi `docker images -q`
-          sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
-          sudo -E apt-mark hold grub-efi-amd64-signed
-          sudo -E apt update
-          sudo -E apt -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap*
-          sudo -E apt -y full-upgrade
-          sudo -E apt -y install ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip libpython3-dev qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
-          sudo -E systemctl daemon-reload
-          sudo -E apt -y autoremove --purge
-          sudo -E apt clean
-          sudo -E timedatectl set-timezone "Asia/Shanghai"
+  #build_openwrt-arm64:
+     name: Build OpenWrt-arm64 Firmware
+     runs-on: ubuntu-latest
+    
+     steps:
+       - name: Space cleanup and Initialization environment
+         env:
+           DEBIAN_FRONTEND: noninteractive
+         run: |
+           docker rmi `docker images -q`
+           sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
+           sudo -E apt-mark hold grub-efi-amd64-signed
+           sudo -E apt update
+           sudo -E apt -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap*
+           sudo -E apt -y full-upgrade
+           sudo -E apt -y install ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip libpython3-dev qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
+           sudo -E systemctl daemon-reload
+           sudo -E apt -y autoremove --purge
+           sudo -E apt clean
+           sudo -E timedatectl set-timezone "Asia/Shanghai"
       
   
-      - name: Checkout openwrt-docker
-        uses: actions/checkout@v3
-        with:
-         token: ${{ secrets.MINSDATA_GITHUB }}     
-      - name: Make dir and git clone lede repositories
-        run: |         
-         git clone https://github.com/coolsnowwolf/lede
+       - name: Checkout openwrt-docker
+         uses: actions/checkout@v3
+         with:
+          token: ${{ secrets.MINSDATA_GITHUB }}     
+       - name: Make dir and git clone lede repositories
+         run: |         
+          git clone https://github.com/coolsnowwolf/lede
 
-      - name: Set feeds config
-        run: |
-         cat ./new-feeds-config/feeds.conf > ./lede/feeds.conf.default
+       - name: Set feeds config
+         run: |
+          cat ./new-feeds-config/feeds.conf > ./lede/feeds.conf.default
           ./lede/scripts/feeds update -a
           ./lede/scripts/feeds install -a
 
-      - name: Set network initial config
-        run: |
+       - name: Set network initial config
+         run: |
           chmod +x ./network-config-file/network-initial-setting.sh
           ./network-config-file/network-initial-setting.sh
      
-      - name: Set opewrt-x86 config
-        run: |
-         rm -f ./lede/.config*
-         cp ./openwrt-config-file/openwrt-arm64.config ./lede/.config
+       - name: Set opewrt-arm64 config
+         run: |
+          rm -f ./lede/.config*
+          cp ./openwrt-config-file/openwrt-arm64.config ./lede/.config
      #   cat ./openwrt-config-file/openwrt-x86.config > ./lede/.config
 
-      - name: Generate configuration file
-        run: |
+       - name: Generate configuration file
+         run: |
           cd lede
           make defconfig
            
-      - name: Download packages
-        run: |
+       - name: Download packages
+         run: |
           cd lede
           make download -j16
 
-      - name: Make image for openwrt-x86
-        run: |
+       - name: Make image for openwrt-arm64
+         run: |
           cd lede
           make -j$(nproc) || make -j1 V=s
           echo "======================="
@@ -228,8 +229,8 @@ jobs:
           du -h --max-depth=1 ./build_dir
           du -h --max-depth=1 ./bin
    
-      - name: Prepare artifact
-        run: |
+       - name: Prepare artifact
+         run: |
           cd lede
           mkdir -p ./artifact/package
           mkdir -p ./artifact/buildinfo
@@ -237,51 +238,51 @@ jobs:
           cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
           cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
 
-      - name: Upload buildinfo
-        uses: actions/upload-artifact@v3
-        with:
+       - name: Upload buildinfo
+         uses: actions/upload-artifact@v3
+         with:
           name: OpenWrt-arm64_buildinfo
           path: ./lede/artifact/buildinfo/
 
-      - name: Upload package
-        uses: actions/upload-artifact@v3
-        with:
+       - name: Upload package
+         uses: actions/upload-artifact@v3
+         with:
           name: OpenWrt-arm64_package
           path: ./lede/artifact/package/
 
-      - name: Upload firmware
-        uses: actions/upload-artifact@v3
-        with:
+       - name: Upload firmware
+         uses: actions/upload-artifact@v3
+         with:
           name: OpenWrt-arm64_firmware
           path: ./lede/bin/targets/
 ########################################################################
-      - name: copy openwrt-arm64 image to dockerfile folder
-        run: |
+       - name: copy openwrt-arm64 image to dockerfile folder
+         run: |
           cp -rf ./lede/bin/targets/armvirt/64/openwrt-armvirt-64-generic-rootfs.tar.gz ./dockerfiles/openwrt-arm64.tar.gz
 
-      - name: Set Arch and Date variables for openwrt
-        run: |
+       - name: Set Arch and Date variables for openwrt
+         run: |
           echo "OPENWRT_ARCH=arm64" >> $GITHUB_ENV
           echo "TODAYS_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
 
-      - name: Set environment variables for DockerhubRepo
-        run: |
+       - name: Set environment variables for DockerhubRepo
+         run: |
           echo "IMAGE_NAME_PREFIX=minsdatadocker" >> $GITHUB_ENV
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+       - name: Set up QEMU
+         uses: docker/setup-qemu-action@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+       - name: Set up Docker Buildx
+         uses: docker/setup-buildx-action@v2
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
+       - name: Login to DockerHub
+         uses: docker/login-action@v2
+         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Set environment variables for PLATFORMS, DOCKERFILE, TAG
-        run: |
+       - name: Set environment variables for PLATFORMS, DOCKERFILE, TAG
+         run: |
           echo "PLATFORMS=linux/arm64" >> $GITHUB_ENV
           
           echo "DOCKERFILE_OPENWRT=./dockerfiles/dockerfile-openwrt-${{ env.OPENWRT_ARCH }}" >> $GITHUB_ENV
@@ -290,15 +291,13 @@ jobs:
           echo "TAG_OPENWRT_LATEST=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:latest" >> $GITHUB_ENV
 
 
-      - name: Build and Push OPENWRT Docker image
-        uses: docker/build-push-action@v4
-        with:
+       - name: Build and Push OPENWRT Docker image
+         uses: docker/build-push-action@v4
+         with:
           context: .
           file: ${{ env.DOCKERFILE_OPENWRT }}
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: |
             ${{ env.TAG_OPENWRT_VER }}
-            ${{ env.TAG_OPENWRT_LATEST }}
-
             ${{ env.TAG_OPENWRT_LATEST }}
