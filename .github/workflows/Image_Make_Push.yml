@@ -16,7 +16,7 @@ on:
 jobs:
   job1:
     #  build_openwrt-x86:
-      name: Build OpenWrt-x86 Firmware
+      name: Build OpenWrt-x86 docker image
       runs-on: ubuntu-latest
     
       steps:
@@ -160,7 +160,7 @@ jobs:
 ###########################################################################
   job2:
   #build_openwrt-arm64:
-     name: Build OpenWrt-arm64 Firmware
+     name: Build OpenWrt-arm64 docker image
      runs-on: ubuntu-latest
     
      steps:
