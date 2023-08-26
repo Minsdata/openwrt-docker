@@ -156,7 +156,7 @@ jobs:
           push: true
           tags: |
             ${{ env.TAG_OPENWRT_VER }}
-
+            ${{ env.TAG_OPENWRT_LATEST }}
 ###########################################################################
   job2:
   #build_openwrt-arm64:
