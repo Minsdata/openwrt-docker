@@ -1,6 +1,6 @@
 image: minsdatadocker/openwrt:latest
 #${{ env.TODAYS_DATE }}
-tags: ["2023.09.03"]
+tags: ["latest"]
 manifests:
   - 
      image: minsdatadocker/openwrt-arm64:latest
