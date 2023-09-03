@@ -145,11 +145,14 @@ jobs:
           
           echo "TAG_OPENWRT_VER=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:${{ env.TODAYS_DATE }}" >> $GITHUB_ENV
           echo "TAG_OPENWRT_LATEST=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:latest" >> $GITHUB_ENV
+          echo "TAG_MULTI_PLATFORM"=${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.OPENWRT_ARCH }} >> $GITHUB_ENV
 
 
        - name: Build and Push OPENWRT Docker image
          uses: docker/build-push-action@v4
          with:
+          provenance: false
+          sbom: false
           context: .
           file: ${{ env.DOCKERFILE_OPENWRT }}
           platforms: ${{ env.PLATFORMS }}
@@ -157,6 +160,7 @@ jobs:
           tags: |
             ${{ env.TAG_OPENWRT_VER }}
             ${{ env.TAG_OPENWRT_LATEST }}
+            ${{ env.TAG_MULTI_PLATFORM }}
 ###########################################################################
   job2:
   #build_openwrt-arm64:
@@ -288,11 +292,14 @@ jobs:
           
           echo "TAG_OPENWRT_VER=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:${{ env.TODAYS_DATE }}" >> $GITHUB_ENV
           echo "TAG_OPENWRT_LATEST=${{ env.IMAGE_NAME_PREFIX }}/openwrt-${{ env.OPENWRT_ARCH }}:latest" >> $GITHUB_ENV
+          echo "TAG_MULTI_PLATFORM"=${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.OPENWRT_ARCH }} >> $GITHUB_ENV
 
 
        - name: Build and Push OPENWRT Docker image
          uses: docker/build-push-action@v4
          with:
+          provenance: false
+          sbom: false
           context: .
           file: ${{ env.DOCKERFILE_OPENWRT }}
           platforms: ${{ env.PLATFORMS }}
@@ -300,3 +307,4 @@ jobs:
           tags: |
             ${{ env.TAG_OPENWRT_VER }}
             ${{ env.TAG_OPENWRT_LATEST }}
+            ${{ env.TAG_MULTI_PLATFORM }}
