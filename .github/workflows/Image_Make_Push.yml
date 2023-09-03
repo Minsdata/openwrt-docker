@@ -75,7 +75,7 @@ jobs:
        - name: Make image for openwrt-x86
          run: |
           cd lede
-          make -j$(nproc) || make -j$(nproc) V=s
+          make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
@@ -218,7 +218,7 @@ jobs:
        - name: Make image for openwrt-arm64
          run: |
           cd lede
-          make -j$(nproc) || make -j$(nproc) V=s
+          make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
