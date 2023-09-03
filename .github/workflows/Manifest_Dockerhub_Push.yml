@@ -44,14 +44,16 @@ jobs:
       - name: Pull Docker image
         run: |
           docker pull minsdatadocker/openwrt-x86:latest
-          docker tag minsdatadocker/openwrt-x86:latest minsdatadocker/openwrt-x86:2023.09
+          docker tag minsdatadocker/openwrt-x86:latest minsdatadocker/openwrt:x86
           docker pull --platform linux/arm64 minsdatadocker/openwrt-arm64:latest
-          docker tag minsdatadocker/openwrt-arm64:latest minsdatadocker/openwrt-x86:2023.08
+          docker tag minsdatadocker/openwrt-arm64:latest minsdatadocker/openwrt:arm64
       - name: Push Images to DockerHub and GitHub Container Registry
         run: |
           
-          docker manifest create --insecure minsdatadocker/openwrt-x86:test minsdatadocker/openwrt-x86:2023.09 minsdatadocker/openwrt-x86:2023.08
-        # docker manifest push --insecure minsdatadocker/openwrt-x86:test
+          docker manifest create --insecure minsdatadocker/openwrt:test
+          docker manifest annotate minsdatadocker/openwrt:test minsdatadocker/openwrt:x86 --os linux --arch amd64 
+          docker manifest annotate minsdatadocker/openwrt:test minsdatadocker/openwrt:arm64 --os linux --arch arm64
+          docker manifest push --insecure minsdatadocker/openwrt:test
         
         #  wget https://github.com/estesp/manifest-tool/releases/download/v2.0.8/binaries-manifest-tool-2.0.8.tar.gz -O binaries-manifest-tool-2.0.8.tar.gz
         #  tar zxvf binaries-manifest-tool-2.0.8.tar.gz
