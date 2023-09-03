@@ -43,7 +43,7 @@ jobs:
 
       - name: Pull Docker image
         run: |
-          docker pull minsdatadocker/openwrt-x86:latest
+          docker pull minsdatadocker/openwrt-x86:2023.08.2
           docker tag minsdatadocker/openwrt-x86:latest minsdatadocker/openwrt-x86:2023.09.03
           docker pull --platform linux/arm64 minsdatadocker/openwrt-arm64:latest
           docker tag minsdatadocker/openwrt-arm64:latest minsdatadocker/openwrt-x86:2023.08.26
