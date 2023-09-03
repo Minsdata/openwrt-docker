@@ -1,5 +1,5 @@
 image: minsdatadocker/openwrt:latest
-tags: ["0.51.3"]
+tags: ["${{ env.TODAYS_DATE }}"]
 manifests:
   - image: minsdatadocker/openwrt-x86:latest
     platform:
