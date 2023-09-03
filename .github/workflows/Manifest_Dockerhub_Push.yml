@@ -51,7 +51,7 @@ jobs:
         run: |
           
           docker manifest create --insecure minsdatadocker/openwrt-x86:test minsdatadocker/openwrt-x86:2023.09 minsdatadocker/openwrt-x86:2023.08
-          docker manifest push --insecure minsdatadocker/openwrt-x86:test
+        # docker manifest push --insecure minsdatadocker/openwrt-x86:test
         
         #  wget https://github.com/estesp/manifest-tool/releases/download/v2.0.8/binaries-manifest-tool-2.0.8.tar.gz -O binaries-manifest-tool-2.0.8.tar.gz
         #  tar zxvf binaries-manifest-tool-2.0.8.tar.gz
