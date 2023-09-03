@@ -1,0 +1,11 @@
+image: minsdatadocker/openwrt:latest
+tags: ["0.51.3"]
+manifests:
+  - image: minsdatadocker/openwrt-x86:latest
+    platform:
+      architecture: amd64
+      os: linux
+  - image: minsdatadocker/openwrt-arm64:latest
+    platform:
+      architecture: arm64
+      os: linux
