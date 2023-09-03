@@ -32,6 +32,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Set Date variables for openwrt
+        run: |
+          echo "TODAYS_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
     
       - name: Push Images to DockerHub and GitHub Container Registry
         run: |
