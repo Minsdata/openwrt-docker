@@ -1,4 +1,4 @@
-name: Image_Make_Push
+name: Manifest_Dockerhub_Push
 #normal mode
 #on:
 #  schedule:
