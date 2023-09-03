@@ -44,9 +44,9 @@ jobs:
       - name: Pull Docker image
         run: |
           docker pull minsdatadocker/openwrt-x86:latest
-          docker tag minsdatadocker/openwrt:amd64 minsdatadocker/openwrt-x86:latest
+          docker tag minsdatadocker/openwrt-x86:latest minsdatadocker/openwrt:amd64
           docker pull --platform linux/arm64 minsdatadocker/openwrt-arm64:latest
-          docker tag minsdatadocker/openwrt:arm64 minsdatadocker/openwrt-arm64:latest
+          docker tag minsdatadocker/openwrt-arm64:latest minsdatadocker/openwrt:arm64
       - name: Push Images to DockerHub and GitHub Container Registry
         run: |
           
