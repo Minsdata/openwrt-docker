@@ -43,9 +43,9 @@ jobs:
     
       - name: Push Images to DockerHub and GitHub Container Registry
         run: |
-          docker manifest create --insecure minsdatadocker/openwrt:latest minsdatadocker/openwrt-x86:latest minsdatadocker/openwrt-arm64:latest
-          docker manifest annotate minsdatadocker/openwrt:latest minsdatadocker/openwrt-x86:latest --os linux --arch amd64 
-          docker manifest annotate minsdatadocker/openwrt:latest minsdatadocker/openwrt-arm64:latest --os linux --arch arm64
+          docker manifest create --insecure minsdatadocker/openwrt:latest minsdatadocker/openwrt-x86:2023.09.03 minsdatadocker/openwrt-arm64:2023.09.03
+          docker manifest annotate minsdatadocker/openwrt:latest minsdatadocker/openwrt-x86:2023.09.03 --os linux --arch amd64 
+          docker manifest annotate minsdatadocker/openwrt:latest minsdatadocker/openwrt-arm64:2023.09.03 --os linux --arch arm64
           docker manifest push --insecure minsdatadocker/openwrt:latest
         
         #  wget https://github.com/estesp/manifest-tool/releases/download/v2.0.8/binaries-manifest-tool-2.0.8.tar.gz -O binaries-manifest-tool-2.0.8.tar.gz
