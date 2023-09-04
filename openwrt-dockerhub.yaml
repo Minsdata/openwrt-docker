@@ -1,15 +1,13 @@
 image: minsdatadocker/openwrt:latest
 #${{ env.TODAYS_DATE }}
-tags: ["latest"]
+tags: ["latest","#${{ env.TODAYS_DATE }}"]
 manifests:
-  - 
-     image: minsdatadocker/openwrt-arm64:latest
+  - image: minsdatadocker/openwrt:arm64
      platform:
        architecture: arm64
        os: linux
 
-  - 
-     image: minsdatadocker/openwrt-x86:latest
+  - image: minsdatadocker/openwrt:x86
      platform:
        architecture: amd64
        os: linux
