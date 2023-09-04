@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Image tag'
+        description: 'start tag'
         required: true
-        default: 'test the action'
+        default: 'start the action'
 
 jobs:
   job1:
