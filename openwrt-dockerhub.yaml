@@ -3,11 +3,11 @@ image: minsdatadocker/openwrt:latest
 tags: ["latest","#${{ env.TODAYS_DATE }}"]
 manifests:
   - image: minsdatadocker/openwrt:arm64
-     platform:
+    platform:
        architecture: arm64
        os: linux
 
   - image: minsdatadocker/openwrt:x86
-     platform:
+    platform:
        architecture: amd64
        os: linux
