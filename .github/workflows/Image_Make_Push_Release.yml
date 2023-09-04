@@ -1,4 +1,4 @@
-name: Image_Make_Push
+name: Image_Make_Push_Release
 #normal mode
 #on:
 #  schedule:
@@ -308,3 +308,68 @@ jobs:
             ${{ env.TAG_OPENWRT_VER }}
             ${{ env.TAG_OPENWRT_LATEST }}
             ${{ env.TAG_MULTI_PLATFORM }}
+
+###############################################################################
+  job3:
+  #push openwrt multi dockerhub image and release:
+      needs: [job1, job2]
+      name: Push Openwrt Multi Dockerhub Image and Release 
+      runs-on: ubuntu-latest
+      steps:      
+        - name: Check out repository code
+          uses: actions/checkout@v3
+
+        - name: Set environment variables for DockerhubRepo
+          run: |
+            echo "IMAGE_NAME_PREFIX=minsdatadocker" >> $GITHUB_ENV
+          
+        - name: Login to DockerHub
+          uses: docker/login-action@v2
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+        - name: Set Date variables for openwrt
+          run: |
+            echo "TODAYS_DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
+        - name: Enable experimental mode
+          run: |
+            echo 'export DOCKER_CLI_EXPERIMENTAL=enabled' >> $GITHUB_ENV
+
+        - name: Pull Docker image
+          run: |
+            docker pull minsdatadocker/openwrt:x86
+            docker pull --platform linux/arm64 minsdatadocker/openwrt:arm64
+  
+        - name: Push Images to DockerHub as Multi Platform Image with Ver Tag
+          run: |          
+            docker manifest create --insecure ${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.TODAYS_DATE }} ${{ env.IMAGE_NAME_PREFIX }}/openwrt:x86 ${{ env.IMAGE_NAME_PREFIX }}/openwrt:arm64
+            docker manifest annotate ${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.TODAYS_DATE }} ${{ env.IMAGE_NAME_PREFIX }}/openwrt:x86 --os linux --arch amd64 
+            docker manifest annotate ${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.TODAYS_DATE }} ${{ env.IMAGE_NAME_PREFIX }}/openwrt:arm64 --os linux --arch arm64
+            docker manifest push --insecure ${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.TODAYS_DATE }}
+
+        - name: Push Images to DockerHub as Multi Platform Image with Latest Tag
+          run: |          
+            docker manifest create --insecure ${{ env.IMAGE_NAME_PREFIX }}/openwrt:latest ${{ env.IMAGE_NAME_PREFIX }}/openwrt:x86 ${{ env.IMAGE_NAME_PREFIX }}/openwrt:arm64
+            docker manifest annotate ${{ env.IMAGE_NAME_PREFIX }}/openwrt:latest ${{ env.IMAGE_NAME_PREFIX }}/openwrt:x86 --os linux --arch amd64 
+            docker manifest annotate ${{ env.IMAGE_NAME_PREFIX }}/openwrt:latest ${{ env.IMAGE_NAME_PREFIX }}/openwrt:arm64 --os linux --arch arm64
+            docker manifest push --insecure ${{ env.IMAGE_NAME_PREFIX }}/openwrt:latest
+
+        - name: Create Release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.MINSDATA_GITHUB }}
+          with:
+            tag_name: ${{ env.TODAYS_DATE }}
+            release_name: Release ${{ env.TODAYS_DATE }}
+            body: |
+
+               ### Docker images  
+               - Docker image for Openwrt: [${{ env.IMAGE_NAME_PREFIX }}/openwrt:${{ env.TODAYS_DATE }}](https://hub.docker.com/r/minsdatadocker/openwrt)  
+
+               ### OS/Arch Support  
+               - linux/amd64  
+               - linux/arm64  
+     
+               This Docker images are bulit from [coolsnowwolf/lede](https://github.com/coolsnowwolf/lede)  oringal source code latest relase 
