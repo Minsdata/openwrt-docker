@@ -1,4 +1,4 @@
-name: Manifest_Dockerhub_Push_Release
+name: (test)Manifest_Dockerhub_Push_Release
 #normal mode
 #on:
 #  schedule:
